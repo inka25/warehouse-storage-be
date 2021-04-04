@@ -20,9 +20,11 @@ func Routes(router *mux.Router, handler *handlers.Handler) {
 	v1Apis.Path("/auto").Handler(api.Autocomplete(handler.Autocomplete)).
 		Methods(http.MethodGet)
 
-	v1Apis.Path("/list/warehouses").Handler(api.Autocomplete(handler.Autocomplete)).
+	v1Apis.Path("/list/warehouses").Handler(api.ListWarehouses(handler.ListWarehouses)).
 		Methods(http.MethodGet)
-	v1Apis.Path("/download").Handler(api.Autocomplete(handler.Autocomplete)).
+	v1Apis.Path("/list/products").Handler(api.ListWarehouses(handler.ListWarehouses)).
 		Methods(http.MethodGet)
+	//v1Apis.Path("/download").Handler(api.Autocomplete(handler.Autocomplete)).
+	//	Methods(http.MethodGet)
 
 }

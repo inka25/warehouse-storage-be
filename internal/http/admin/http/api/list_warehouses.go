@@ -1,24 +1,16 @@
 package api
 
 import (
-	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
 	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/http/responder"
 	"context"
 	"net/http"
-	"net/url"
 )
 
-func ListWarehouses(handlerfunc func(ctx context.Context, prefix string) (*dtos.ListWarehouses, error)) http.HandlerFunc {
+func ListWarehouses(handlerfunc func(ctx context.Context) (interface{}, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		results, err := url.ParseRequestURI(r.URL.String())
-		if err != nil {
-			responder.ResponseError(w, err)
-			return
-		}
-
-		data, err := handlerfunc(r.Context(), results.Query().Get(keyValuePrefix))
+		data, err := handlerfunc(r.Context())
 		if err != nil {
 			responder.ResponseError(w, err)
 			return

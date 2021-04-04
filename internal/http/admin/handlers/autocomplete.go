@@ -1,25 +1,21 @@
 package handlers
 
 import (
-	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
 	"context"
-	"google.golang.org/appengine/log"
+	"log"
 )
 
 const logAutocomplete = "[Autocomplete]"
 
-func (h *Handler) Autocomplete(ctx context.Context, prefix string) (*dtos.AutocompleteResponse, error) {
+func (h *Handler) Autocomplete(ctx context.Context, prefix string) (interface{}, error) {
 
 	result, err := h.db.Autocomplete(ctx, prefix)
 	if err != nil {
-		log.Errorf(
-			ctx,
-			"%s err: %v",
+		log.Printf(
+			"%s err: %v\n",
 			logAutocomplete, err)
 		return nil, err
 	}
 
-	return &dtos.AutocompleteResponse{
-		Result: result,
-	}, err
+	return result, err
 }

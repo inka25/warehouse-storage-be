@@ -1,12 +1,14 @@
 package mysql
 
 import (
+	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
 	"github.com/jmoiron/sqlx"
 )
 
 type Clienter interface {
 	Autocomplete(ctx context.Context, prefix string) ([]string, error)
+	ListWarehouses(ctx context.Context)(stores.Warehouses, error)
 }
 
 type Client struct {
