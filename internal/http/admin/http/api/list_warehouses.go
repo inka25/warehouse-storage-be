@@ -1,13 +1,14 @@
 package api
 
 import (
+	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
 	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/http/responder"
 	"context"
 	"net/http"
 )
 
-func ListWarehouses(handlerfunc func(ctx context.Context) (interface{}, error)) http.HandlerFunc {
+func ListWarehouses(handlerfunc func(ctx context.Context) (*dtos.ListWareshousesResponse, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		data, err := handlerfunc(r.Context())

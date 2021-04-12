@@ -21,7 +21,7 @@ func DownloadTodayStock(handlerfunc func(ctx context.Context, warehouseID int64)
 
 		warehouseID, err := strconv.ParseInt(results.Query().Get(keyValueWarehouseId), 10, 64)
 		if err != nil {
-			responder.ResponseError(w, errs.ErrInvalidID)
+			responder.ResponseError(w, errs.ErrInvalidWarehouseID)
 			return
 		}
 

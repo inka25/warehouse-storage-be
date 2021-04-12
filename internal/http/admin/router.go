@@ -22,7 +22,7 @@ func Routes(router *mux.Router, handler *handlers.Handler) {
 
 	v1Apis.Path("/list/warehouses").Handler(api.ListWarehouses(handler.ListWarehouses)).
 		Methods(http.MethodGet)
-	v1Apis.Path("/list/products").Handler(api.ListWarehouses(handler.ListWarehouses)).
+	v1Apis.Path("/list/products").Handler(api.ListProducts(handler.ListProducts)).
 		Methods(http.MethodGet)
 	//v1Apis.Path("/download").Handler(api.Autocomplete(handler.Autocomplete)).
 	//	Methods(http.MethodGet)

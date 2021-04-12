@@ -27,10 +27,17 @@ func errToHttpFormat(err error) (int, interface{}) {
 		err,
 		errs.ErrEmptyBodyRequest,
 		errs.ErrInvalidCountry,
-		errs.ErrInvalidRequestParam,
 		errs.ErrNoResultFound,
 	):
 		return http.StatusBadRequest, CommonResponse{
+			Status:      1,
+			Description: err.Error(),
+		}
+	case CheckErrorType(
+		err,
+		errs.ErrInvalidRequestParam,
+	):
+		return http.StatusBadRequest, AdvanceCommonResponse{
 			Status:      1,
 			Description: err.Error(),
 		}

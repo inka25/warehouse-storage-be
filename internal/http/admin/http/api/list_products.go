@@ -11,53 +11,49 @@ import (
 )
 
 const (
-	keyValueWarehouseId = "warehouse_id"
+	keyValueWarehouseId   = "warehouse_id"
 	keyValueProductTypeId = "product_type_id"
-	keyValueBrandId = "brand_id"
-	keyValuePage = "page"
-	keyValueLimit = "limit"
+	keyValueBrandId       = "brand_id"
+	keyValuePage          = "page"
+	keyValueLimit         = "limit"
 )
 
-
-func ListProducts(handlerfunc func(ctx context.Context, param *dtos.ListProductsRequest) (interface{}, error)) http.HandlerFunc {
+func ListProducts(handlerfunc func(ctx context.Context, param *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-
-		results, err := url.ParseRequestURI(r.URL.String())
+		requestUrl, err := url.ParseRequestURI(r.URL.String())
 		if err != nil {
 			responder.ResponseError(w, err)
 			return
 		}
-		var param *dtos.ListProductsRequest
-		var errors []error
-		param.Auto = results.Query().Get(keyValuePrefix)
-		param.WarehouseID, err = strconv.ParseInt(results.Query().Get(keyValueWarehouseId), 10, 64)
-if err != nil{
-	errors = append(errors, errs.ErrInvalidWarehouseID)
-}
-		param.ProductTypeID, err = strconv.ParseInt(results.Query().Get(keyValueProductTypeId), 10, 64)
-		if err != nil{
-			errors = append(errors, errs.ErrInvalidProductTypeID)
+
+		results := requestUrl.Query()
+		param := dtos.ListProductsRequest{}
+		var errors []string
+		param.Prefix = results.Get(keyValuePrefix)
+		param.ProductTypeID, err = strconv.ParseInt(results.Get(keyValueProductTypeId), 10, 64)
+		if err != nil && results.Get(keyValueProductTypeId) != "" {
+			errors = append(errors, errs.ErrInvalidProductTypeID.Error())
 		}
-		param.BrandID, err = strconv.ParseInt(results.Query().Get(keyValueBrandId), 10, 64)
-		if err != nil{
-			errors = append(errors, errs.ErrInvalidBrandID)
+		param.BrandID, err = strconv.ParseInt(results.Get(keyValueBrandId), 10, 64)
+		if err != nil && results.Get(keyValueBrandId) != "" {
+			errors = append(errors, errs.ErrInvalidBrandID.Error())
 		}
-		param.Page, err = strconv.ParseInt(results.Query().Get(keyValuePage), 10, 64)
-		if err != nil{
-			errors = append(errors, errs.ErrInvalidPageNumber)
+		param.Page, err = strconv.ParseInt(results.Get(keyValuePage), 10, 64)
+		if err != nil && results.Get(keyValuePage) != "" {
+			errors = append(errors, errs.ErrInvalidPageNumber.Error())
 		}
-		param.Limit, err = strconv.ParseInt(results.Query().Get(keyValueLimit), 10, 64)
-		if err != nil{
-			errors = append(errors, errs.ErrInvalidPageLimit)
+		param.Limit, err = strconv.ParseInt(results.Get(keyValueLimit), 10, 64)
+		if err != nil && results.Get(keyValueLimit) != "" {
+			errors = append(errors, errs.ErrInvalidPageLimit.Error())
 		}
 
-		if len(errors) > 0{
+		if len(errors) > 0 {
 			responder.ResponseError(w, errs.ErrInvalidRequestParam, errors)
 			return
 		}
 
-		data, err := handlerfunc(r.Context(), param)
+		data, err := handlerfunc(r.Context(), &param)
 		if err != nil {
 			responder.ResponseError(w, err)
 			return
