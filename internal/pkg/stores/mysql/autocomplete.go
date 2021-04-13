@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 )
 
@@ -28,7 +29,7 @@ func (c *Client) Autocomplete(ctx context.Context, prefix string) ([]string, err
 	if err != nil {
 		return nil, err
 	}
-	if err = stmt.SelectContext(ctx, &dest, prefix, prefix); err != nil {
+	if err = stmt.SelectContext(ctx, &dest, prefix, prefix); err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
 	return dest, nil
