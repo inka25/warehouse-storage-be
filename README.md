@@ -18,3 +18,6 @@ This repository is to track storage inventory in several warehouse locations.
 - Edit product detail [restricted]
 - Delete product [restricted]
 - Edit product inventory [restricted]
+
+## ERD
+[Storage Warehouse ERD](https://docs.google.com/document/d/1Nlp1i7EkEM2Ptw9LyOxHiLD8fSiBXL_NBx3rBWLyVQU/edit?usp=sharing)
