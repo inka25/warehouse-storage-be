@@ -6,14 +6,14 @@ import (
 )
 
 const (
-	listproducttypesQuery = `
-	SELECT id, name from product_types where deleted = 0;
+	listbrandsQuery = `
+	SELECT id, name from brands where deleted = 0;
 `
 )
 
-func (c *Client) ListProductTypes(ctx context.Context) (stores.Results, error) {
+func (c *Client) ListBrands(ctx context.Context) (stores.Results, error) {
 	var dest []stores.Result
-	stmt, err := c.preparedStmt(listproducttypesQuery)
+	stmt, err := c.preparedStmt(listbrandsQuery)
 	if err != nil {
 		return nil, err
 	}

@@ -1,8 +1,8 @@
 package stores
 
-type Warehouses []Warehouse
+type Results []Result
 
-type Warehouse struct {
+type Result struct {
 	ID   uint16 `db:"id" json:"id"`
 	Name string `db:"name" json:"name"`
 }
@@ -24,11 +24,4 @@ type Product struct {
 	Brand string `json:"brand" db:"brand"`
 	Type  string `json:"type" db:"type"`
 	Stock int64  `json:"stock" db:"stock"`
-}
-
-type ProductTypes []ProductType
-
-type ProductType struct {
-	ID   int64  `json:"id" db:"id"`
-	Name string `json:"name" db:"name"`
 }

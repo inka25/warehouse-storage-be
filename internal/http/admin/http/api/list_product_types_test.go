@@ -31,7 +31,7 @@ func TestListProductTypes(t *testing.T) {
 			},
 			handlerFunc: func(ctx context.Context) (*dtos.ListProductTypesResponse, error) {
 				return &dtos.ListProductTypesResponse{
-					ProductTypes: stores.ProductTypes{},
+					ProductTypes: stores.Results{},
 				}, nil
 			},
 			result: func(resp *http.Response) {

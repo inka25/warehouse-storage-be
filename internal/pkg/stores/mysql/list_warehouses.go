@@ -11,8 +11,8 @@ const (
 `
 )
 
-func (c *Client) ListWarehouses(ctx context.Context) (stores.Warehouses, error) {
-	var dest []stores.Warehouse
+func (c *Client) ListWarehouses(ctx context.Context) (stores.Results, error) {
+	var dest []stores.Result
 	stmt, err := c.preparedStmt(listwarehousesQuery)
 	if err != nil {
 		return nil, err
