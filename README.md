@@ -1,9 +1,9 @@
 # Storage Warehouse BE
 
 ## About
-This repository is to track storage inventory in several warehouse locations. 
+This repository is to track storage inventory in several warehouse locations.
 
-##Attributes
+## Attributes
 - List warehouses
 - List product types
 - List product brands
