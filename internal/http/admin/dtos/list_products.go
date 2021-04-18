@@ -16,9 +16,9 @@ type ListProductsResponse struct {
 	Page     int64           `json:"page"`
 }
 
-type DownloadListProductRequest ListProductsRequest
+type DownloadProductRequest ListProductsRequest
 
-type DownloadListProductsResponse struct {
+type DownloadProductsResponse struct {
 	Filename string
 	Products stores.Products
 }

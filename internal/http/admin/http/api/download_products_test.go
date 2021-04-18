@@ -14,11 +14,11 @@ import (
 	"testing"
 )
 
-func TestListProducts(t *testing.T) {
+func TestDownloadProducts(t *testing.T) {
 
 	tts := []struct {
 		caseName    string
-		handlerFunc func(ctx context.Context, p *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error)
+		handlerFunc func(ctx context.Context, p *dtos.DownloadProductRequest) (*dtos.DownloadProductsResponse, error)
 		request     func() *http.Request
 		result      func(resp *http.Response)
 	}{
@@ -26,18 +26,17 @@ func TestListProducts(t *testing.T) {
 			caseName: "when all param is ok",
 			request: func() *http.Request {
 
-				req, _ := http.NewRequest(http.MethodGet, "/list/products", nil)
+				req, _ := http.NewRequest(http.MethodGet, "/download/products", nil)
 				return req
 			},
-			handlerFunc: func(ctx context.Context, p *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error) {
-				return &dtos.ListProductsResponse{
+			handlerFunc: func(ctx context.Context, p *dtos.DownloadProductRequest) (*dtos.DownloadProductsResponse, error) {
+				return &dtos.DownloadProductsResponse{
 					Products: stores.Products{
 						{
 							ID: 1,
 						},
 					},
-					HasNext: false,
-					Page:    1,
+					Filename: "test_filename",
 				}, nil
 			},
 			result: func(resp *http.Response) {
@@ -50,10 +49,10 @@ func TestListProducts(t *testing.T) {
 			caseName: "when there is invalid param",
 			request: func() *http.Request {
 
-				req, _ := http.NewRequest(http.MethodGet, "/list/products?product_type_id=asd", nil)
+				req, _ := http.NewRequest(http.MethodGet, "/download/products?product_type_id=asd", nil)
 				return req
 			},
-			handlerFunc: func(ctx context.Context, p *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error) {
+			handlerFunc: func(ctx context.Context, p *dtos.DownloadProductRequest) (*dtos.DownloadProductsResponse, error) {
 				return nil, nil
 			},
 			result: func(resp *http.Response) {
@@ -70,10 +69,10 @@ func TestListProducts(t *testing.T) {
 			caseName: "when no result found",
 			request: func() *http.Request {
 
-				req, _ := http.NewRequest(http.MethodGet, "/list/products?product_type_id=123", nil)
+				req, _ := http.NewRequest(http.MethodGet, "/download/products?product_type_id=123", nil)
 				return req
 			},
-			handlerFunc: func(ctx context.Context, p *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error) {
+			handlerFunc: func(ctx context.Context, p *dtos.DownloadProductRequest) (*dtos.DownloadProductsResponse, error) {
 				return nil, errs.ErrNoResultFound
 			},
 			result: func(resp *http.Response) {
@@ -88,7 +87,7 @@ func TestListProducts(t *testing.T) {
 		t.Log(tt.caseName)
 
 		router := mux.NewRouter()
-		router.Handle("/list/products", ListProducts(tt.handlerFunc))
+		router.Handle("/download/products", DownloadProducts(tt.handlerFunc))
 
 		rr := httptest.NewRecorder()
 		req := tt.request()

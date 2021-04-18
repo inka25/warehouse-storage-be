@@ -11,7 +11,7 @@ type ListProductsParams struct {
 	BrandID       int64
 	ProductTypeID int64
 	Prefix        string
-	Page          int64
+	Offset        int64
 	Limit         int64
 }
 

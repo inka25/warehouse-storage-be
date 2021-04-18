@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
 	"fmt"
@@ -16,7 +17,7 @@ const (
 	JOIN stocks s ON p.id = s.product_id
 	%s
 	GROUP BY p.id ) AS result
-	LIMIT ? OFFSET ?	
+	%s	
 ;
 `
 )
@@ -33,17 +34,27 @@ func (c *Client) ListProducts(ctx context.Context, params *stores.ListProductsPa
 	if err = stmt.SelectContext(ctx, &dest, qparams...); err != nil {
 		return nil, err
 	}
+
+	if len(dest) == 0 {
+		return nil, errs.ErrNoResultFound
+	}
+
 	return dest, nil
 }
 
 func buildStmt(p *stores.ListProductsParams) (string, []interface{}) {
 
 	var params []interface{}
-	offset := (p.Page - 1) * p.Limit
-	limit := p.Limit + 1
+
+	limitOffset := "LIMIT ? OFFSET ?"
+	isDownload := p.Offset == 0 && p.Limit == 0
+
 	if p.Prefix == "" && p.ProductTypeID == 0 && p.BrandID == 0 {
-		params = append(params, limit, offset)
-		return fmt.Sprintf(listproductsQuery, ""), params
+		if !isDownload {
+			params = append(params, p.Limit, p.Offset)
+			return fmt.Sprintf(listproductsQuery, "", limitOffset), params
+		}
+		return fmt.Sprintf(listproductsQuery, "", ""), params
 	}
 
 	where := "WHERE "
@@ -73,6 +84,9 @@ func buildStmt(p *stores.ListProductsParams) (string, []interface{}) {
 		params = append(params, p.BrandID)
 	}
 
-	params = append(params, limit, offset)
-	return fmt.Sprintf(listproductsQuery, where), params
+	if !isDownload {
+		params = append(params, p.Limit, p.Offset)
+		return fmt.Sprintf(listproductsQuery, where, limitOffset), params
+	}
+	return fmt.Sprintf(listproductsQuery, where, ""), params
 }
