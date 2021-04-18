@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func ListWarehouses(handlerfunc func(ctx context.Context) (*dtos.ListWareshousesResponse, error)) http.HandlerFunc {
+func ListProductTypes(handlerfunc func(ctx context.Context) (*dtos.ListProductTypesResponse, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		data, err := handlerfunc(r.Context())

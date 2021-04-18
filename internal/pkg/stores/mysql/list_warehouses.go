@@ -7,7 +7,7 @@ import (
 
 const (
 	listwarehousesQuery = `
-	SELECT id, name from warehouses;
+	SELECT id, name from warehouses where deleted = 0;
 `
 )
 

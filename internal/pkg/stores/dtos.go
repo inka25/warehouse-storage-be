@@ -25,3 +25,10 @@ type Product struct {
 	Type  string `json:"type" db:"type"`
 	Stock int64  `json:"stock" db:"stock"`
 }
+
+type ProductTypes []ProductType
+
+type ProductType struct {
+	ID   int64  `json:"id" db:"id"`
+	Name string `json:"name" db:"name"`
+}

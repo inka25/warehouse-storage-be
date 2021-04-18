@@ -9,6 +9,7 @@ import (
 type Clienter interface {
 	Autocomplete(ctx context.Context, prefix string) ([]string, error)
 	ListWarehouses(ctx context.Context) (stores.Warehouses, error)
+	ListProductTypes(ctx context.Context) (stores.ProductTypes, error)
 	ListProducts(ctx context.Context, p *stores.ListProductsParams) (stores.Products, error)
 }
 

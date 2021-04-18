@@ -46,41 +46,29 @@ func buildStmt(p *stores.ListProductsParams) (string, []interface{}) {
 
 	var params []interface{}
 
+	where := "WHERE p.deleted = 0"
 	limitOffset := "LIMIT ? OFFSET ?"
 	isDownload := p.Offset == 0 && p.Limit == 0
 
 	if p.Prefix == "" && p.ProductTypeID == 0 && p.BrandID == 0 {
 		if !isDownload {
 			params = append(params, p.Limit, p.Offset)
-			return fmt.Sprintf(listproductsQuery, "", limitOffset), params
+			return fmt.Sprintf(listproductsQuery, where, limitOffset), params
 		}
-		return fmt.Sprintf(listproductsQuery, "", ""), params
+		return fmt.Sprintf(listproductsQuery, where, ""), params
 	}
-
-	where := "WHERE "
-	andFlag := false
 
 	if p.Prefix != "" {
 		prefix := fmt.Sprintf("%%%s%%", p.Prefix)
-		where = fmt.Sprintf("%s (p.code LIKE ? or p.name LIKE ?)", where)
-		andFlag = true
+		where = fmt.Sprintf("%s AND (p.code LIKE ? OR p.name LIKE ?)", where)
 		params = append(params, prefix, prefix)
 	}
 	if p.ProductTypeID != 0 {
-		if andFlag {
-			where = fmt.Sprintf("%s AND ", where)
-		}
-		where = fmt.Sprintf("%s pt.id = ?", where)
+		where = fmt.Sprintf("%s AND pt.id = ?", where)
 		params = append(params, p.ProductTypeID)
-		if !andFlag {
-			andFlag = true
-		}
 	}
 	if p.BrandID != 0 {
-		if andFlag {
-			where = fmt.Sprintf("%s AND ", where)
-		}
-		where = fmt.Sprintf("%s b.id = ?", where)
+		where = fmt.Sprintf("%s AND b.id = ?", where)
 		params = append(params, p.BrandID)
 	}
 
