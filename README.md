@@ -9,9 +9,11 @@ This repository is to track storage inventory in several warehouse locations.
 - [x] List product brands
 - [x] List product countries
 - [x] List products
+- [x] List inventories
 - [x] Autocomplete product's name or code
 - [ ] Get product detail
 - [x] Download products
+- [x] Download inventories
 - [ ] Download today's warehouse inventory
 - [ ] Upload today's inventory update/change [restricted]
 - [ ] Insert new product [restricted]

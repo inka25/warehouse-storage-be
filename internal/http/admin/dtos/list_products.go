@@ -3,6 +3,7 @@ package dtos
 import "InkaTry/warehouse-storage-be/internal/pkg/stores"
 
 type ListProductsRequest struct {
+	CountryID     int64
 	BrandID       int64
 	ProductTypeID int64
 	Prefix        string

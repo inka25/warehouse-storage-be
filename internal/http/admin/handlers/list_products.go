@@ -12,12 +12,13 @@ const logListProducts = "[ListProducts]"
 func (h *Handler) ListProducts(ctx context.Context, p *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error) {
 	var res dtos.ListProductsResponse
 	// check and set defaultValues
-	validPageLimit(p)
+	validPageLimit(&p.Page, &p.Limit)
 
 	offset := (p.Page - 1) * p.Limit
 	limit := p.Limit + 1
 
 	result, err := h.db.ListProducts(ctx, &stores.ListProductsParams{
+		CountryID:     p.CountryID,
 		BrandID:       p.BrandID,
 		ProductTypeID: p.ProductTypeID,
 		Prefix:        p.Prefix,
@@ -39,16 +40,4 @@ func (h *Handler) ListProducts(ctx context.Context, p *dtos.ListProductsRequest)
 	res.Products = result
 
 	return &res, err
-}
-
-func validPageLimit(p *dtos.ListProductsRequest) {
-
-	if p.Limit == 0 {
-		p.Limit = 20
-	}
-
-	if p.Page == 0 {
-		p.Page = 1
-	}
-
 }

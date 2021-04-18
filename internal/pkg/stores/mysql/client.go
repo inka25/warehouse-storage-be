@@ -13,6 +13,7 @@ type Clienter interface {
 	ListBrands(ctx context.Context) (stores.Results, error)
 	ListCountries(ctx context.Context) (stores.Results, error)
 	ListProducts(ctx context.Context, p *stores.ListProductsParams) (stores.Products, error)
+	ListInventories(ctx context.Context, params *stores.ListInventoriesParams) (stores.Inventories, error)
 }
 
 type Client struct {

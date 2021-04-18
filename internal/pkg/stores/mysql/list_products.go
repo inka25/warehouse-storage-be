@@ -10,11 +10,12 @@ import (
 const (
 	listproductsQuery = `
 	SELECT * FROM (
-	SELECT p.id as id, p.code as code, p.name as name, b.name as brand, pt.name as type, sum(s.stocks) as stock
+	SELECT p.id as id, p.code as code, c.country as country, p.name as name, b.name as brand, pt.name as type, sum(i.stock) as stock
 	FROM products p 
 	JOIN brands b ON p.brand_id = b.id
 	JOIN product_types pt ON pt.id = p.product_type_id 
-	JOIN stocks s ON p.id = s.product_id
+	JOIN inventories i ON p.id = i.product_id
+    JOIN countries c ON p.country_id = c.id
 	%s
 	GROUP BY p.id ) AS result
 	%s	
@@ -25,7 +26,7 @@ const (
 func (c *Client) ListProducts(ctx context.Context, params *stores.ListProductsParams) (stores.Products, error) {
 	var dest []stores.Product
 
-	strstmt, qparams := buildStmt(params)
+	strstmt, qparams := buildProductQueryStmt(params)
 	stmt, err := c.preparedStmt(strstmt)
 
 	if err != nil {
@@ -42,7 +43,7 @@ func (c *Client) ListProducts(ctx context.Context, params *stores.ListProductsPa
 	return dest, nil
 }
 
-func buildStmt(p *stores.ListProductsParams) (string, []interface{}) {
+func buildProductQueryStmt(p *stores.ListProductsParams) (string, []interface{}) {
 
 	var params []interface{}
 
@@ -70,6 +71,10 @@ func buildStmt(p *stores.ListProductsParams) (string, []interface{}) {
 	if p.BrandID != 0 {
 		where = fmt.Sprintf("%s AND b.id = ?", where)
 		params = append(params, p.BrandID)
+	}
+	if p.CountryID != 0 {
+		where = fmt.Sprintf("%s AND c.id = ?", where)
+		params = append(params, p.CountryID)
 	}
 
 	if !isDownload {

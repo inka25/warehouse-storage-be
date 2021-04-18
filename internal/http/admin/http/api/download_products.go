@@ -43,11 +43,6 @@ func DownloadProducts(handlerfunc func(ctx context.Context, param *dtos.Download
 			return
 		}
 
-		if res == nil {
-			responder.ResponseError(w, errs.ErrNoResultFound)
-			return
-		}
-
 		// change to download json
 		//responder.ResponseOK(w, responder.AdvanceCommonResponse{
 		//	Status:      0,

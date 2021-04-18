@@ -10,15 +10,7 @@ import (
 	"strconv"
 )
 
-const (
-	keyValueCountryId     = "country_id"
-	keyValueProductTypeId = "product_type_id"
-	keyValueBrandId       = "brand_id"
-	keyValuePage          = "page"
-	keyValueLimit         = "limit"
-)
-
-func ListProducts(handlerfunc func(ctx context.Context, param *dtos.ListProductsRequest) (*dtos.ListProductsResponse, error)) http.HandlerFunc {
+func ListInventories(handlerfunc func(ctx context.Context, param *dtos.ListInventoriesRequest) (*dtos.ListInventoriesResponse, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		requestUrl, err := url.ParseRequestURI(r.URL.String())
@@ -28,20 +20,11 @@ func ListProducts(handlerfunc func(ctx context.Context, param *dtos.ListProducts
 		}
 
 		results := requestUrl.Query()
-		param := dtos.ListProductsRequest{}
+		param := dtos.ListInventoriesRequest{}
 		var errors []string
-		param.Prefix = results.Get(keyValuePrefix)
-		param.CountryID, err = strconv.ParseInt(results.Get(keyValueCountryId), 10, 64)
-		if err != nil && results.Get(keyValueCountryId) != "" {
-			errors = append(errors, errs.ErrInvalidProductTypeID.Error())
-		}
-		param.ProductTypeID, err = strconv.ParseInt(results.Get(keyValueProductTypeId), 10, 64)
-		if err != nil && results.Get(keyValueProductTypeId) != "" {
-			errors = append(errors, errs.ErrInvalidProductTypeID.Error())
-		}
-		param.BrandID, err = strconv.ParseInt(results.Get(keyValueBrandId), 10, 64)
-		if err != nil && results.Get(keyValueBrandId) != "" {
-			errors = append(errors, errs.ErrInvalidBrandID.Error())
+		param.WarehouseID, err = strconv.ParseInt(results.Get(keyValueWarehouseId), 10, 64)
+		if err != nil {
+			errors = append(errors, errs.ErrInvalidWarehouseID.Error())
 		}
 		param.Page, err = strconv.ParseInt(results.Get(keyValuePage), 10, 64)
 		if err != nil && results.Get(keyValuePage) != "" {
@@ -60,11 +43,6 @@ func ListProducts(handlerfunc func(ctx context.Context, param *dtos.ListProducts
 		data, err := handlerfunc(r.Context(), &param)
 		if err != nil {
 			responder.ResponseError(w, err)
-			return
-		}
-
-		if data == nil {
-			responder.ResponseError(w, errs.ErrNoResultFound)
 			return
 		}
 
