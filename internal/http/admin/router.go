@@ -28,6 +28,8 @@ func Routes(router *mux.Router, handler *handlers.Handler) {
 		Methods(http.MethodGet)
 	v1Apis.Path("/list/brands").Handler(api.ListBrands(handler.ListBrands)).
 		Methods(http.MethodGet)
+	v1Apis.Path("/list/countries").Handler(api.ListCountries(handler.ListCountries)).
+		Methods(http.MethodGet)
 	v1Apis.Path("/download/products").Handler(api.DownloadProducts(handler.DownloadProducts)).
 		Methods(http.MethodGet)
 

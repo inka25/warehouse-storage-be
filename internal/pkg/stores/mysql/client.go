@@ -11,6 +11,7 @@ type Clienter interface {
 	ListWarehouses(ctx context.Context) (stores.Results, error)
 	ListProductTypes(ctx context.Context) (stores.Results, error)
 	ListBrands(ctx context.Context) (stores.Results, error)
+	ListCountries(ctx context.Context) (stores.Results, error)
 	ListProducts(ctx context.Context, p *stores.ListProductsParams) (stores.Products, error)
 }
 

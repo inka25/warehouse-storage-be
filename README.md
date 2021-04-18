@@ -7,7 +7,7 @@ This repository is to track storage inventory in several warehouse locations.
 - [x] List warehouses
 - [x] List product types
 - [x] List product brands
-- [ ] List product countries
+- [x] List product countries
 - [x] List products
 - [x] Autocomplete product's name or code
 - [ ] Get product detail
