@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
+	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
 	"fmt"
@@ -25,6 +26,11 @@ func (h *Handler) DownloadInventories(ctx context.Context, p *dtos.DownloadInven
 			logDownloadInventories, err)
 		return nil, err
 	}
+
+	if len(result) == 0 {
+		return nil, errs.ErrNoResultFound
+	}
+
 	date := time.Now().Format("Monday_02_January_2006")
 	res.Filename = fmt.Sprintf("%sInventory_%s", strings.ToUpper(result[0].Warehouse), date)
 	res.Inventories = result

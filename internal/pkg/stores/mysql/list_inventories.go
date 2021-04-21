@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
 	"fmt"
@@ -33,10 +32,6 @@ func (c *Client) ListInventories(ctx context.Context, params *stores.ListInvento
 	}
 	if err = stmt.SelectContext(ctx, &dest, qparams...); err != nil {
 		return nil, err
-	}
-
-	if len(dest) == 0 {
-		return nil, errs.ErrNoResultFound
 	}
 
 	return dest, nil

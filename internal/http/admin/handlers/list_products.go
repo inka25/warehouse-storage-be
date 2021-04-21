@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
+	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
 	"log"
@@ -30,6 +31,10 @@ func (h *Handler) ListProducts(ctx context.Context, p *dtos.ListProductsRequest)
 			"%s err: %v\n",
 			logListProducts, err)
 		return nil, err
+	}
+
+	if len(result) == 0 {
+		return nil, errs.ErrNoResultFound
 	}
 
 	if len(result) > int(p.Limit) {
