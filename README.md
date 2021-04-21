@@ -11,7 +11,7 @@ This repository is to track storage inventory in several warehouse locations.
 - [x] List products
 - [x] List inventories
 - [x] Autocomplete product's name or code
-- [ ] Get product detail
+- [x] Get product detail
 - [x] Download products
 - [x] Download inventories
 - [ ] Upload today's inventory update/change [restricted]
