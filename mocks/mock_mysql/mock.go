@@ -49,6 +49,21 @@ func (mr *MockClienterMockRecorder) Autocomplete(ctx, prefix interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Autocomplete", reflect.TypeOf((*MockClienter)(nil).Autocomplete), ctx, prefix)
 }
 
+// GetProductByProductId mocks base method
+func (m *MockClienter) GetProductByProductId(ctx context.Context, params *stores.SearchParams) (*stores.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetProductByProductId", ctx, params)
+	ret0, _ := ret[0].(*stores.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetProductByProductId indicates an expected call of GetProductByProductId
+func (mr *MockClienterMockRecorder) GetProductByProductId(ctx, params interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetProductByProductId", reflect.TypeOf((*MockClienter)(nil).GetProductByProductId), ctx, params)
+}
+
 // ListWarehouses mocks base method
 func (m *MockClienter) ListWarehouses(ctx context.Context) (stores.Results, error) {
 	m.ctrl.T.Helper()
@@ -110,7 +125,7 @@ func (mr *MockClienterMockRecorder) ListCountries(ctx interface{}) *gomock.Call 
 }
 
 // ListProducts mocks base method
-func (m *MockClienter) ListProducts(ctx context.Context, p *stores.ListProductsParams) (stores.Products, error) {
+func (m *MockClienter) ListProducts(ctx context.Context, p *stores.SearchParams) (stores.Products, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListProducts", ctx, p)
 	ret0, _ := ret[0].(stores.Products)
@@ -124,17 +139,47 @@ func (mr *MockClienterMockRecorder) ListProducts(ctx, p interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProducts", reflect.TypeOf((*MockClienter)(nil).ListProducts), ctx, p)
 }
 
-// ListInventories mocks base method
-func (m *MockClienter) ListInventories(ctx context.Context, params *stores.ListInventoriesParams) (stores.Inventories, error) {
+// ListInventoriesByWarehouseId mocks base method
+func (m *MockClienter) ListInventoriesByWarehouseId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListInventories", ctx, params)
+	ret := m.ctrl.Call(m, "ListInventoriesByWarehouseId", ctx, p)
 	ret0, _ := ret[0].(stores.Inventories)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListInventories indicates an expected call of ListInventories
-func (mr *MockClienterMockRecorder) ListInventories(ctx, params interface{}) *gomock.Call {
+// ListInventoriesByWarehouseId indicates an expected call of ListInventoriesByWarehouseId
+func (mr *MockClienterMockRecorder) ListInventoriesByWarehouseId(ctx, p interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInventories", reflect.TypeOf((*MockClienter)(nil).ListInventories), ctx, params)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInventoriesByWarehouseId", reflect.TypeOf((*MockClienter)(nil).ListInventoriesByWarehouseId), ctx, p)
+}
+
+// ListInventoriesByProductId mocks base method
+func (m *MockClienter) ListInventoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListInventoriesByProductId", ctx, p)
+	ret0, _ := ret[0].(stores.Inventories)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListInventoriesByProductId indicates an expected call of ListInventoriesByProductId
+func (mr *MockClienterMockRecorder) ListInventoriesByProductId(ctx, p interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListInventoriesByProductId", reflect.TypeOf((*MockClienter)(nil).ListInventoriesByProductId), ctx, p)
+}
+
+// ListHistoriesByProductId mocks base method
+func (m *MockClienter) ListHistoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Histories, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListHistoriesByProductId", ctx, p)
+	ret0, _ := ret[0].(stores.Histories)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListHistoriesByProductId indicates an expected call of ListHistoriesByProductId
+func (mr *MockClienterMockRecorder) ListHistoriesByProductId(ctx, p interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListHistoriesByProductId", reflect.TypeOf((*MockClienter)(nil).ListHistoriesByProductId), ctx, p)
 }

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `histories` (
                              `previous_info` json NOT NULL,
                              `new_info` json NOT NULL,
                              `description` varchar(255) DEFAULT NULL,
-                             `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                             `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                              `updated_by` varchar(255) NOT NULL,
                              PRIMARY KEY (`id`),
                              KEY `product_id` (`product_id`),

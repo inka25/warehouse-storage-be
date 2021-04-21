@@ -18,7 +18,7 @@ func (h *Handler) ListProducts(ctx context.Context, p *dtos.ListProductsRequest)
 	offset := (p.Page - 1) * p.Limit
 	limit := p.Limit + 1
 
-	result, err := h.db.ListProducts(ctx, &stores.ListProductsParams{
+	result, err := h.db.ListProducts(ctx, &stores.SearchParams{
 		CountryID:     p.CountryID,
 		BrandID:       p.BrandID,
 		ProductTypeID: p.ProductTypeID,

@@ -17,7 +17,7 @@ func (h *Handler) DownloadInventories(ctx context.Context, p *dtos.DownloadInven
 	var res dtos.DownloadInventoriesResponse
 
 	// for download, no need offset-limit
-	result, err := h.db.ListInventories(ctx, &stores.ListInventoriesParams{
+	result, err := h.db.ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
 		WarehouseID: p.WarehouseID,
 	})
 	if err != nil {

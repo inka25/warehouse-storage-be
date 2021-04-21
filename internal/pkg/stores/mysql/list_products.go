@@ -22,7 +22,7 @@ const (
 `
 )
 
-func (c *Client) ListProducts(ctx context.Context, params *stores.ListProductsParams) (stores.Products, error) {
+func (c *Client) ListProducts(ctx context.Context, params *stores.SearchParams) (stores.Products, error) {
 	var dest []stores.Product
 
 	strstmt, qparams := buildProductQueryStmt(params)
@@ -38,7 +38,7 @@ func (c *Client) ListProducts(ctx context.Context, params *stores.ListProductsPa
 	return dest, nil
 }
 
-func buildProductQueryStmt(p *stores.ListProductsParams) (string, []interface{}) {
+func buildProductQueryStmt(p *stores.SearchParams) (string, []interface{}) {
 
 	var params []interface{}
 

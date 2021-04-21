@@ -18,7 +18,7 @@ func (h *Handler) ListInventories(ctx context.Context, p *dtos.ListInventoriesRe
 	offset := (p.Page - 1) * p.Limit
 	limit := p.Limit + 1
 
-	result, err := h.db.ListInventories(ctx, &stores.ListInventoriesParams{
+	result, err := h.db.ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
 		WarehouseID: p.WarehouseID,
 		Offset:      offset,
 		Limit:       limit,

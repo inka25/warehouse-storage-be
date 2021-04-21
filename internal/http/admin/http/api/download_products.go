@@ -43,13 +43,6 @@ func DownloadProducts(handlerfunc func(ctx context.Context, param *dtos.Download
 			return
 		}
 
-		// change to download json
-		//responder.ResponseOK(w, responder.AdvanceCommonResponse{
-		//	Status:      0,
-		//	Description: "success",
-		//	Data:        data,
-		//})
-
 		responder.ResponseCSVDownload(w, res.Filename, res.Products)
 	}
 }

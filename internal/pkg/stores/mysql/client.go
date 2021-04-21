@@ -8,12 +8,19 @@ import (
 
 type Clienter interface {
 	Autocomplete(ctx context.Context, prefix string) ([]string, error)
+
+	GetProductByProductId(ctx context.Context, params *stores.SearchParams) (*stores.Product, error)
+
 	ListWarehouses(ctx context.Context) (stores.Results, error)
 	ListProductTypes(ctx context.Context) (stores.Results, error)
 	ListBrands(ctx context.Context) (stores.Results, error)
 	ListCountries(ctx context.Context) (stores.Results, error)
-	ListProducts(ctx context.Context, p *stores.ListProductsParams) (stores.Products, error)
-	ListInventories(ctx context.Context, params *stores.ListInventoriesParams) (stores.Inventories, error)
+	ListProducts(ctx context.Context, p *stores.SearchParams) (stores.Products, error)
+
+	ListInventoriesByWarehouseId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error)
+	ListInventoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error)
+
+	ListHistoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Histories, error)
 }
 
 type Client struct {

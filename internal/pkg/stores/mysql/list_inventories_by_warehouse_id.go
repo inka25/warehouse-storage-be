@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	listinventoriesQuery = `
+	listinventoriesByWarehouseIdQuery = `
 	SELECT p.id as id, w.name as warehouse, c.country as country, p.code as code, p.name as name, b.name as brand, pt.name as type, i.stock as stock
 	FROM products p 
 	JOIN brands b ON p.brand_id = b.id
@@ -21,10 +21,10 @@ const (
 `
 )
 
-func (c *Client) ListInventories(ctx context.Context, params *stores.ListInventoriesParams) (stores.Inventories, error) {
+func (c *Client) ListInventoriesByWarehouseId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error) {
 	var dest []stores.Inventory
 
-	strstmt, qparams := buildInventoryQueryStmt(params)
+	strstmt, qparams := buildInventoryQueryStmt(p)
 	stmt, err := c.preparedStmt(strstmt)
 
 	if err != nil {
@@ -37,7 +37,7 @@ func (c *Client) ListInventories(ctx context.Context, params *stores.ListInvento
 	return dest, nil
 }
 
-func buildInventoryQueryStmt(p *stores.ListInventoriesParams) (string, []interface{}) {
+func buildInventoryQueryStmt(p *stores.SearchParams) (string, []interface{}) {
 
 	params := []interface{}{p.WarehouseID}
 
@@ -46,7 +46,7 @@ func buildInventoryQueryStmt(p *stores.ListInventoriesParams) (string, []interfa
 
 	if !isDownload {
 		params = append(params, p.Limit, p.Offset)
-		return fmt.Sprintf(listinventoriesQuery, limitOffset), params
+		return fmt.Sprintf(listinventoriesByWarehouseIdQuery, limitOffset), params
 	}
-	return fmt.Sprintf(listinventoriesQuery, ""), params
+	return fmt.Sprintf(listinventoriesByWarehouseIdQuery, ""), params
 }

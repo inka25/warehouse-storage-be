@@ -40,7 +40,7 @@ func TestDownloadInventories(t *testing.T) {
 			expectations: func() {
 				err := errors.New("any")
 
-				mockMysql.EXPECT().ListInventories(ctx, &stores.ListInventoriesParams{
+				mockMysql.EXPECT().ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
 					WarehouseID: int64(1),
 				}).Return(nil, err)
 
@@ -56,7 +56,7 @@ func TestDownloadInventories(t *testing.T) {
 			},
 			expectations: func() {
 
-				mockMysql.EXPECT().ListInventories(ctx, &stores.ListInventoriesParams{
+				mockMysql.EXPECT().ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
 					WarehouseID: int64(1),
 				}).Return(stores.Inventories{}, nil)
 
@@ -74,7 +74,7 @@ func TestDownloadInventories(t *testing.T) {
 			expectations: func() {
 
 				mockMysql.EXPECT().
-					ListInventories(ctx, &stores.ListInventoriesParams{
+					ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
 						WarehouseID: int64(1),
 					}).
 					Return(stores.Inventories{

@@ -43,7 +43,7 @@ func Start(cfg *config.Config) func() {
 
 func initMysql(cfg *config.Config) *sqlx.DB {
 	db, err := sqlx.Connect("mysql", fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s?",
+		"%s:%s@tcp(%s:%d)/%s?parseTime=true",
 		cfg.MySQL.User,
 		cfg.MySQL.Pass,
 		cfg.MySQL.Host,

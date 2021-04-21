@@ -16,7 +16,7 @@ func (h *Handler) DownloadProducts(ctx context.Context, p *dtos.DownloadProductR
 	var res dtos.DownloadProductsResponse
 
 	// for download, no need offset-limit
-	result, err := h.db.ListProducts(ctx, &stores.ListProductsParams{
+	result, err := h.db.ListProducts(ctx, &stores.SearchParams{
 		CountryID:     p.CountryID,
 		BrandID:       p.BrandID,
 		ProductTypeID: p.ProductTypeID,

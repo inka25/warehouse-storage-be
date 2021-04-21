@@ -32,9 +32,13 @@ func Routes(router *mux.Router, handler *handlers.Handler) {
 		Methods(http.MethodGet)
 	v1Apis.Path("/list/countries").Handler(api.ListCountries(handler.ListCountries)).
 		Methods(http.MethodGet)
+
 	v1Apis.Path("/download/products").Handler(api.DownloadProducts(handler.DownloadProducts)).
 		Methods(http.MethodGet)
 	v1Apis.Path("/download/inventories").Handler(api.DownloadInventories(handler.DownloadInventories)).
+		Methods(http.MethodGet)
+
+	v1Apis.Path("/product").Handler(api.GetProductDetail(handler.GetProductDetail)).
 		Methods(http.MethodGet)
 
 }

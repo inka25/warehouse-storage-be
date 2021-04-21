@@ -40,7 +40,7 @@ func TestDownloadProducts(t *testing.T) {
 			expectations: func() {
 				err := errors.New("any")
 
-				mockMysql.EXPECT().ListProducts(ctx, &stores.ListProductsParams{
+				mockMysql.EXPECT().ListProducts(ctx, &stores.SearchParams{
 					CountryID: int64(1),
 				}).Return(nil, err)
 
@@ -56,7 +56,7 @@ func TestDownloadProducts(t *testing.T) {
 			},
 			expectations: func() {
 
-				mockMysql.EXPECT().ListProducts(ctx, &stores.ListProductsParams{
+				mockMysql.EXPECT().ListProducts(ctx, &stores.SearchParams{
 					CountryID: int64(1),
 				}).Return(stores.Products{}, nil)
 
@@ -74,7 +74,7 @@ func TestDownloadProducts(t *testing.T) {
 			expectations: func() {
 
 				mockMysql.EXPECT().
-					ListProducts(ctx, &stores.ListProductsParams{
+					ListProducts(ctx, &stores.SearchParams{
 						CountryID: int64(1),
 					}).
 					Return(stores.Products{
