@@ -10,11 +10,7 @@ import (
 	"strconv"
 )
 
-const (
-	keyValueWarehouseId = "warehouse_id"
-)
-
-func DownloadInventories(handlerfunc func(ctx context.Context, p *dtos.DownloadInventoriesRequest) (*dtos.DownloadInventoriesResponse, error)) http.HandlerFunc {
+func UploadInventories(handlerfunc func(ctx context.Context, p *dtos.UploadInventoriesRequest) (error, []string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		requestUrl, err := url.ParseRequestURI(r.URL.String())
@@ -24,10 +20,8 @@ func DownloadInventories(handlerfunc func(ctx context.Context, p *dtos.DownloadI
 		}
 
 		results := requestUrl.Query()
-		param := dtos.DownloadInventoriesRequest{}
+		param := dtos.UploadInventoriesRequest{}
 		var errors []string
-
-		// to do: apply filter
 		param.WarehouseID, err = strconv.ParseInt(results.Get(keyValueWarehouseId), 10, 64)
 		if err != nil {
 			errors = append(errors, errs.ErrInvalidWarehouseID.Error())
@@ -38,12 +32,28 @@ func DownloadInventories(handlerfunc func(ctx context.Context, p *dtos.DownloadI
 			return
 		}
 
-		result, err := handlerfunc(r.Context(), &param)
+		err, errs := handlerfunc(r.Context(), &param)
+		if err != nil {
+			responder.ResponseError(w, err, errs)
+			return
+		}
+
+		responder.ResponseOK(w, responder.CommonResponse{
+			Status:      0,
+			Description: "success",
+		})
+	}
+}
+
+func UploadInventoriesTemplate(handlerfunc func(ctx context.Context) (*dtos.UploadInventoriesTemplateResponse, error)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		res, err := handlerfunc(r.Context())
 		if err != nil {
 			responder.ResponseError(w, err)
 			return
 		}
 
-		responder.ResponseCSVDownload(w, result.Filename, result.Inventories)
+		responder.ResponseCSVDownload(w, res.Filename, res.UploadInventories)
 	}
 }

@@ -37,6 +37,7 @@ func errToHttpFormat(err error) (int, interface{}) {
 	case CheckErrorType(
 		err,
 		errs.ErrInvalidRequestParam,
+		errs.ErrUploadEntries,
 	):
 		return http.StatusBadRequest, AdvanceCommonResponse{
 			Status:      1,

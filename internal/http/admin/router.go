@@ -38,6 +38,11 @@ func Routes(router *mux.Router, handler *handlers.Handler) {
 	v1Apis.Path("/download/inventories").Handler(api.DownloadInventories(handler.DownloadInventories)).
 		Methods(http.MethodGet)
 
+	v1Apis.Path("/upload/inventories/template").Handler(api.UploadInventoriesTemplate(handler.UploadInventoriesTemplate)).
+		Methods(http.MethodGet)
+	v1Apis.Path("/upload/inventories").Handler(api.UploadInventories(handler.UploadInventories)).
+		Methods(http.MethodPost)
+
 	v1Apis.Path("/product").Handler(api.GetProductDetail(handler.GetProductDetail)).
 		Methods(http.MethodGet)
 

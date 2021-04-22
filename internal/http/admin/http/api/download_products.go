@@ -23,6 +23,10 @@ func DownloadProducts(handlerfunc func(ctx context.Context, param *dtos.Download
 		param := dtos.DownloadProductRequest{}
 		var errors []string
 		param.Prefix = results.Get(keyValuePrefix)
+		param.CountryID, err = strconv.ParseInt(results.Get(keyValueCountryId), 10, 64)
+		if err != nil && results.Get(keyValueCountryId) != "" {
+			errors = append(errors, errs.ErrInvalidProductTypeID.Error())
+		}
 		param.ProductTypeID, err = strconv.ParseInt(results.Get(keyValueProductTypeId), 10, 64)
 		if err != nil && results.Get(keyValueProductTypeId) != "" {
 			errors = append(errors, errs.ErrInvalidProductTypeID.Error())

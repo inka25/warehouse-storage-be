@@ -17,4 +17,6 @@ var (
 	ErrInvalidPageNumber    = errors.New("err invalid page number")
 	ErrInvalidPageLimit     = errors.New("err invalid page limit")
 	ErrInvalidId            = errors.New("err invalid id")
+
+	ErrUploadEntries = errors.New("err upload entries")
 )

@@ -14,7 +14,8 @@ This repository is to track storage inventory in several warehouse locations.
 - [x] Get product detail
 - [x] Download products
 - [x] Download inventories
-- [ ] Upload today's inventory update/change [restricted]
+- [ ] Upload today's inventory update [restricted]
+- [x] Download `upload today's inventory update` template
 - [ ] Insert new product [restricted]
 - [ ] Edit product detail [restricted]
 - [ ] Delete product [restricted]
