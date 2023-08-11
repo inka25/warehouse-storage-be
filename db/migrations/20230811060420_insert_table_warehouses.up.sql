@@ -1,0 +1,1 @@
+INSERT INTO warehouses(name) values ('Ciledug'),('Griya Idola')
