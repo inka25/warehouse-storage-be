@@ -1,7 +1,10 @@
 package dtos
 
 type UploadInventoriesRequest struct {
-	WarehouseID int64
+	Email             string
+	IsAdmin           bool
+	WarehouseID       int64
+	UploadInventories UploadInventories
 }
 
 type UploadInventoriesTemplateResponse struct {
@@ -12,11 +15,11 @@ type UploadInventoriesTemplateResponse struct {
 type UploadInventories []UploadInventory
 
 type UploadInventory struct {
-	ID        int64  `json:"product_id" csv:"product_id"`
-	Warehouse string `json:"warehouse,omitempty" csv:"warehouse"`
-	Code      string `json:"product_code,omitempty" csv:"product_code" `
-	Name      string `json:"product_name,omitempty" csv:"product_name" `
-	Brand     string `json:"product_brand,omitempty" csv:"product_brand"`
-	Type      string `json:"product_type,omitempty" csv:"product_type"`
-	Stock     int64  `json:"closing_stock"`
+	ID        int64  `json:"ID" csv:"ID"`
+	Warehouse string `json:"Warehouse,omitempty" csv:"Warehouse"`
+	Code      string `json:"Code,omitempty" csv:"Code" `
+	Name      string `json:"Name,omitempty" csv:"Name" `
+	Brand     string `json:"Brand,omitempty" csv:"Brand"`
+	Type      string `json:"Type,omitempty" csv:"Type"`
+	Stock     int64  `json:"Stock" csv:"Stock"`
 }

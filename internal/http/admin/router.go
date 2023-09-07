@@ -3,18 +3,20 @@ package admin
 import (
 	"InkaTry/warehouse-storage-be/internal/http/admin/handlers"
 	"InkaTry/warehouse-storage-be/internal/http/admin/http/api"
+	"InkaTry/warehouse-storage-be/internal/pkg/config"
+	"InkaTry/warehouse-storage-be/middleware"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
-func Routes(router *mux.Router, handler *handlers.Handler) {
-	adminApis := router.PathPrefix("/admin").Subrouter()
-
+func Routes(router *mux.Router, handler *handlers.Handler, cfg *config.Config) {
 	// public api connection test
-	adminApis.HandleFunc("/ping", func(rw http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/ping", func(rw http.ResponseWriter, r *http.Request) {
 		rw.Write([]byte("pong"))
 	})
 
+	adminApis := router.PathPrefix("/admin").Subrouter()
+	adminApis.Use(middleware.Middleware(cfg))
 	v1Apis := adminApis.PathPrefix("/v1").Subrouter()
 
 	v1Apis.Path("/auto").Handler(api.Autocomplete(handler.Autocomplete)).

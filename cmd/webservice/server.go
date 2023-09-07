@@ -21,7 +21,7 @@ func Start(cfg *config.Config) func() {
 	router := mux.NewRouter()
 	admin.Routes(router, handlers.NewAdminHandler(&handlers.Params{
 		DB: mysql.NewClient(db),
-	}))
+	}), cfg)
 
 	srv := &http.Server{
 		Handler: router,

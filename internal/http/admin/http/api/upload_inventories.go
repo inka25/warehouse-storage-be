@@ -4,7 +4,10 @@ import (
 	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
 	"InkaTry/warehouse-storage-be/internal/pkg/errs"
 	"InkaTry/warehouse-storage-be/internal/pkg/http/responder"
+	"bufio"
 	"context"
+	"fmt"
+	"github.com/gocarina/gocsv"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -25,6 +28,23 @@ func UploadInventories(handlerfunc func(ctx context.Context, p *dtos.UploadInven
 		param.WarehouseID, err = strconv.ParseInt(results.Get(keyValueWarehouseId), 10, 64)
 		if err != nil {
 			errors = append(errors, errs.ErrInvalidWarehouseID.Error())
+			fmt.Println(err.Error())
+		}
+
+		param.Email = r.Context().Value("email").(string)
+		param.IsAdmin = r.Context().Value("admin").(bool)
+
+		file, _, err := r.FormFile("file")
+		if err != nil {
+			errors = append(errors, err.Error())
+			fmt.Println(err.Error())
+		}
+		defer file.Close()
+
+		reader := bufio.NewReader(file)
+		if err = gocsv.Unmarshal(reader, &param.UploadInventories); err != nil {
+			errors = append(errors, err.Error())
+			fmt.Println(err.Error())
 		}
 
 		if len(errors) > 0 {

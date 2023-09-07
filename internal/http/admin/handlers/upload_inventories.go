@@ -2,26 +2,43 @@ package handlers
 
 import (
 	"InkaTry/warehouse-storage-be/internal/http/admin/dtos"
+	"InkaTry/warehouse-storage-be/internal/pkg/errs"
+	"InkaTry/warehouse-storage-be/internal/pkg/stores"
 	"context"
+	"fmt"
+	"github.com/jinzhu/copier"
+	"time"
 )
 
 const logUploadInventories = "[UploadInventories]"
 
 func (h *Handler) UploadInventories(ctx context.Context, p *dtos.UploadInventoriesRequest) (error, []string) {
 
-	//result, err := h.db.ListInventoriesByWarehouseId(ctx, &stores.SearchParams{
-	//	WarehouseID: p.WarehouseID,
-	//})
-	//if err != nil {
-	//	log.Printf(
-	//		"%s err: %v\n",
-	//		logUploadInventories, err)
-	//	return err
-	//}
+	if !p.IsAdmin {
+		return errs.ErrAuth, nil
+	}
+
+	//for _, inventory := range p.UploadInventories {
 	//
-	//if len(result) == 0 {
-	//	return errs.ErrNoResultFound
+	//	invJSON, err := json.MarshalIndent(inventory, "", "  ")
+	//	if err != nil {
+	//		fmt.Println(err.Error())
+	//		continue
+	//	}
+	//	fmt.Println(string(invJSON))
 	//}
+
+	timeNow := time.Now()
+	var uploadParams stores.UploadParams
+	uploadParams.WarehouseId = p.WarehouseID
+	uploadParams.Email = p.Email
+	uploadParams.Timestamp = timeNow
+	copier.Copy(&uploadParams.UploadInfo, &p.UploadInventories)
+
+	if err := h.db.InsertInventoriesByWarehouseId(ctx, &uploadParams); err != nil {
+		fmt.Println(err.Error())
+		return err, nil
+	}
 
 	return nil, nil
 }

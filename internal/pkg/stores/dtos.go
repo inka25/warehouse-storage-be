@@ -22,6 +22,13 @@ type SearchParams struct {
 	Limit         int64
 }
 
+type UploadParams struct {
+	Email       string
+	WarehouseId int64
+	Timestamp   time.Time
+	UploadInfo  Inventories
+}
+
 type Products []Product
 
 type Product struct {
@@ -48,6 +55,7 @@ type Inventory struct {
 }
 
 type Histories []History
+
 type History struct {
 	EditType    string   `json:"edit_type" db:"edit_type"`
 	Description string   `json:"description" db:"description"`

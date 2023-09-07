@@ -21,6 +21,8 @@ type Clienter interface {
 	ListInventoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Inventories, error)
 
 	ListHistoriesByProductId(ctx context.Context, p *stores.SearchParams) (stores.Histories, error)
+
+	InsertInventoriesByWarehouseId(ctx context.Context, p *stores.UploadParams) error
 }
 
 type Client struct {
